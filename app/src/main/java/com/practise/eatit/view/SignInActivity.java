@@ -4,30 +4,19 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.practise.eatit.HomeActivity;
 import com.practise.eatit.R;
 import com.practise.eatit.databinding.ActivitySignInBinding;
-import com.practise.eatit.model.User;
 import com.pranavpandey.android.dynamic.toasts.DynamicToast;
-
-import javax.xml.datatype.Duration;
 
 public class SignInActivity extends AppCompatActivity implements View.OnClickListener{
 

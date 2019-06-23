@@ -22,13 +22,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.practise.eatit.HomeActivity;
 import com.practise.eatit.R;
 import com.practise.eatit.databinding.ActivitySignUpBinding;
 import com.practise.eatit.model.User;
 import com.pranavpandey.android.dynamic.toasts.DynamicToast;
-
-import java.util.Objects;
 
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
 

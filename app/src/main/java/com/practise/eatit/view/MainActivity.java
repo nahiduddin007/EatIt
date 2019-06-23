@@ -10,7 +10,6 @@ import android.view.View;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.practise.eatit.HomeActivity;
 import com.practise.eatit.R;
 import com.practise.eatit.databinding.ActivityMainBinding;
 

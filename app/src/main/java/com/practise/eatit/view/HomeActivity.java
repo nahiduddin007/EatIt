@@ -1,4 +1,4 @@
-package com.practise.eatit;
+package com.practise.eatit.view;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,6 +26,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.practise.eatit.R;
 import com.practise.eatit.ViewHolder.MenuViewHolder;
 import com.practise.eatit.interfaces.ItemClickListener;
 import com.practise.eatit.model.Category;
@@ -55,6 +56,7 @@ public class HomeActivity extends AppCompatActivity
     private User user;
     private TextView navEmailTV, navUserNameTV;
     private RecyclerView menuRecyclerView;
+    private FirebaseRecyclerAdapter<Category, MenuViewHolder> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +95,7 @@ public class HomeActivity extends AppCompatActivity
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
         userDataRef = database.getReference("User");
-        categoryDataRef = database.getReference("Category");
+        categoryDataRef = database.getReference("Categories");
         menuRecyclerView = findViewById(R.id.homeRecyclerView);
         menuRecyclerView.setHasFixedSize(true);
         menuRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -109,7 +111,7 @@ public class HomeActivity extends AppCompatActivity
                         .setQuery(categoryDataRef, Category.class)
                         .build();
 
-        FirebaseRecyclerAdapter<Category, MenuViewHolder> adapter = new FirebaseRecyclerAdapter<Category, MenuViewHolder>(options) {
+        adapter = new FirebaseRecyclerAdapter<Category, MenuViewHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull MenuViewHolder menuViewHolder, int i, @NonNull Category category) {
 
@@ -122,7 +124,9 @@ public class HomeActivity extends AppCompatActivity
                 menuViewHolder.setItemClickListener(new ItemClickListener() {
                     @Override
                     public void OnClick(View view, int position, boolean isLongClick) {
-                        DynamicToast.make(getApplicationContext(), ""+clickItem.getName(), Toast.LENGTH_SHORT).show();
+                    Intent foodListIntent = new Intent(getApplicationContext(), FoodList.class);
+                    foodListIntent.putExtra("categoryId", adapter.getRef(position).getKey());
+                    startActivity(foodListIntent);
                     }
                 });
             }
@@ -217,11 +221,18 @@ public class HomeActivity extends AppCompatActivity
             finish();
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
         }
+        adapter.startListening();
     }
 
     private void logOut() {
         FirebaseAuth.getInstance().signOut();
         finish();
         startActivity(new Intent(getApplicationContext(), MainActivity.class));
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        adapter.stopListening();
     }
 }
