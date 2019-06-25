@@ -27,6 +27,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.practise.eatit.R;
+import com.practise.eatit.ViewHolder.CartAdapter;
 import com.practise.eatit.ViewHolder.MenuViewHolder;
 import com.practise.eatit.interfaces.ItemClickListener;
 import com.practise.eatit.model.Category;
@@ -68,8 +69,8 @@ public class HomeActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent intent = new Intent(getApplicationContext(), CartActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -84,7 +85,6 @@ public class HomeActivity extends AppCompatActivity
         View headerView = navigationView.getHeaderView(0);
         navEmailTV = headerView.findViewById(R.id.navUserEmailTV);
         navUserNameTV = headerView.findViewById(R.id.navUserNameTV);
-
 
         initialization();
 
@@ -180,6 +180,7 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
@@ -196,14 +197,18 @@ public class HomeActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+        Intent intent;
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
         if (id == R.id.nav_menu) {
-            // Handle the camera action
-        } else if (id == R.id.nav_cart) {
 
+        } else if (id == R.id.nav_cart) {
+            intent = new Intent(getApplicationContext(), CartActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_orders) {
+            intent = new Intent(getApplicationContext(), OrderStatusActivity.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_log_out) {
             logOut();
