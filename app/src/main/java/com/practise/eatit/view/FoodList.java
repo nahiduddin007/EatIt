@@ -72,6 +72,7 @@ public class FoodList extends AppCompatActivity {
         materialSearchBar = findViewById(R.id.searchBar);
         materialSearchBar.setHint("Enter your food");
         loadSuggest();
+        materialSearchBar.setLastSuggestions(suggestList);
         materialSearchBar.setCardViewElevation(10);
         materialSearchBar.addTextChangeListener(new TextWatcher() {
             @Override
@@ -116,14 +117,14 @@ public class FoodList extends AppCompatActivity {
     }
 
     private void startSearch(CharSequence text) {
-        FirebaseRecyclerOptions<Food> options =
+        FirebaseRecyclerOptions<Food> searchOptions =
                 new FirebaseRecyclerOptions.Builder<Food>()
                         .setQuery(
                                 databaseReference.orderByChild("name").equalTo(text.toString())
                                 , Food.class)
                         .build();
 
-        searchAdapter = new FirebaseRecyclerAdapter<Food, FoodViewHolder>(options) {
+        searchAdapter = new FirebaseRecyclerAdapter<Food, FoodViewHolder>(searchOptions) {
             @Override
             protected void onBindViewHolder(@NonNull FoodViewHolder foodViewHolder, int i, @NonNull Food food) {
                 foodViewHolder.foodNameTV.setText(food.getName());

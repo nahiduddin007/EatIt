@@ -13,6 +13,8 @@
         android:id="@+id/searchBar"
         android:layout_alignParentTop="true"
         app:mt_speechMode="false"
+        android:layout_margin="4dp"
+        android:elevation="6dp"
         app:mt_hint="Enter your food"/>
 
     <androidx.recyclerview.widget.RecyclerView
