@@ -2,6 +2,7 @@ package com.practise.eatit.model;
 
 public class User {
     private String userName, userPassword, userPhoneNum, email;
+    private boolean staff;
 
     public User() {
     }
@@ -10,8 +11,16 @@ public class User {
         this.userName = userName;
         this.userPassword = userPassword;
         this.userPhoneNum = userPhoneNum;
+        this.staff = false;
     }
 
+    public boolean isStaff() {
+        return staff;
+    }
+
+    public void setStaff(boolean staff) {
+        this.staff = staff;
+    }
 
     public String getUserName() {
         return userName;
