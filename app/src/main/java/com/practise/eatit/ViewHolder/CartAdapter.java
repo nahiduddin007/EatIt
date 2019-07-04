@@ -2,6 +2,7 @@ package com.practise.eatit.ViewHolder;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,13 +17,15 @@ import com.amulyakhare.textdrawable.TextDrawable;
 import com.practise.eatit.R;
 import com.practise.eatit.interfaces.ItemClickListener;
 import com.practise.eatit.model.Order;
+import com.practise.eatit.utils.Common;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-class CartViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+class CartViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener ,
+        View.OnCreateContextMenuListener {
 
     public TextView cartNameTV, priceTV;
     public ImageView cartCountIV;
@@ -35,11 +38,19 @@ class CartViewHolder extends RecyclerView.ViewHolder implements View.OnClickList
         cartNameTV = itemView.findViewById(R.id.cart_item_name);
         priceTV = itemView.findViewById(R.id.cart_item_price);
         cartCountIV = itemView.findViewById(R.id.cart_item_count);
+
+        itemView.setOnCreateContextMenuListener(this);
     }
 
     @Override
     public void onClick(View v) {
 
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        menu.setHeaderTitle("Select action");
+        menu.add(0, 0, getAdapterPosition(), Common.DELETE);
     }
 }
 

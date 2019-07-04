@@ -21,6 +21,7 @@ import com.practise.eatit.R;
 import com.practise.eatit.database.DatabaseHandler;
 import com.practise.eatit.model.Food;
 import com.practise.eatit.model.Order;
+import com.practise.eatit.utils.Common;
 import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 import com.squareup.picasso.Picasso;
 
@@ -67,7 +68,12 @@ public class FoodDetail extends AppCompatActivity {
             foodId = getIntent().getStringExtra("foodId");
         }
         if (!foodId.isEmpty()){
-            getFoodDetails(foodId);
+            if (Common.isConnectedToInternet(getApplicationContext())) {
+                getFoodDetails(foodId);
+            } else {
+                DynamicToast.makeError(getApplicationContext(), "Please turn on your internet", Toast.LENGTH_SHORT).show();
+                return;
+            }
         }
 
         cartButton.setOnClickListener(new View.OnClickListener() {

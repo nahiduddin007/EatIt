@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.ContextThemeWrapper;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -29,6 +29,7 @@ import com.practise.eatit.database.DatabaseHandler;
 import com.practise.eatit.model.Order;
 import com.practise.eatit.model.Request;
 import com.practise.eatit.model.User;
+import com.practise.eatit.utils.Common;
 import com.practise.eatit.utils.CurrentUser;
 import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 
@@ -77,7 +78,11 @@ public class CartActivity extends AppCompatActivity {
         placeOrderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showAlertDialouge();
+                if (carts.size() > 0){
+                    showAlertDialouge();
+                } else {
+                    DynamicToast.makeError(getApplicationContext(), "You haven't choose any food for order!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         loadUserData();
@@ -127,7 +132,7 @@ public class CartActivity extends AppCompatActivity {
                 );
                 databaseReference.child(String.valueOf(System.currentTimeMillis()))
                         .setValue(request);
-                db.deleteContacts();
+                db.deleteCarts();
                 DynamicToast.makeSuccess(getApplicationContext(),"Thank you, Order Placed Sucess!", Toast.LENGTH_SHORT).show();
                 finish();
             }
@@ -146,6 +151,7 @@ public class CartActivity extends AppCompatActivity {
     private void loadFoodList() {
         carts = db.getAllOrders();
         adapter = new CartAdapter(carts, this);
+        adapter.notifyDataSetChanged();
         recyclerView.setAdapter(adapter);
 
         int total = 0;
@@ -155,5 +161,22 @@ public class CartActivity extends AppCompatActivity {
         Locale locale = new Locale("en", "US");
         NumberFormat frm = NumberFormat.getCurrencyInstance(locale);
         totalPriceTextView.setText(frm.format(total));
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        if (item.getTitle().equals(Common.DELETE)){
+            deleteCart(item.getOrder());
+        }
+        return true;
+    }
+
+    private void deleteCart(int order) {
+        carts.remove(order);
+        db.deleteCarts();
+        for (Order o : carts){
+            db.addCart(o);
+        }
+        loadFoodList();
     }
 }

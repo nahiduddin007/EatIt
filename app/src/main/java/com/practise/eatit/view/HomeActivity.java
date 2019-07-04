@@ -32,6 +32,7 @@ import com.practise.eatit.ViewHolder.MenuViewHolder;
 import com.practise.eatit.interfaces.ItemClickListener;
 import com.practise.eatit.model.Category;
 import com.practise.eatit.model.User;
+import com.practise.eatit.utils.Common;
 import com.practise.eatit.view.MainActivity;
 import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 import com.squareup.picasso.Picasso;
@@ -99,7 +100,12 @@ public class HomeActivity extends AppCompatActivity
         menuRecyclerView = findViewById(R.id.homeRecyclerView);
         menuRecyclerView.setHasFixedSize(true);
         menuRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        loadMenu();
+        if (Common.isConnectedToInternet(getApplicationContext())){
+            loadMenu();
+        } else {
+            DynamicToast.makeError(getApplicationContext(), "Please turn on your internet", Toast.LENGTH_SHORT).show();
+            return;
+        }
         loadUserData();
     }
 
@@ -187,8 +193,9 @@ public class HomeActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.action_refresh) {
+            loadMenu();
+            adapter.startListening();
         }
 
         return super.onOptionsItemSelected(item);
@@ -226,7 +233,9 @@ public class HomeActivity extends AppCompatActivity
             finish();
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
         }
-        adapter.startListening();
+        if (Common.isConnectedToInternet(getApplicationContext())){
+            adapter.startListening();
+        }
     }
 
     private void logOut() {
@@ -238,6 +247,8 @@ public class HomeActivity extends AppCompatActivity
     @Override
     protected void onStop() {
         super.onStop();
-        adapter.stopListening();
+        if (Common.isConnectedToInternet(getApplicationContext())){
+            adapter.stopListening();
+        }
     }
 }

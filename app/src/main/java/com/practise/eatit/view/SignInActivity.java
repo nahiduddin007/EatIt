@@ -16,6 +16,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.practise.eatit.R;
 import com.practise.eatit.databinding.ActivitySignInBinding;
+import com.practise.eatit.utils.Common;
 import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 
 public class SignInActivity extends AppCompatActivity implements View.OnClickListener{
@@ -41,7 +42,11 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.signInSignButton:
-                userSignIn();
+                if (Common.isConnectedToInternet(getApplicationContext())){
+                    userSignIn();
+                } else {
+                    DynamicToast.makeError(getApplicationContext(), "Please turn on your internet", Toast.LENGTH_SHORT).show();
+                }
                 break;
         }
     }

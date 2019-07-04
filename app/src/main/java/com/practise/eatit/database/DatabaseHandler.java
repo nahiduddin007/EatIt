@@ -93,7 +93,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return contactList;
     }
 
-    public void deleteContacts () {
+    public void deleteCarts() {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DELETE FROM "+TABLE_CARTS);
     }

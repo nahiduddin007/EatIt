@@ -29,6 +29,7 @@ import com.practise.eatit.ViewHolder.MenuViewHolder;
 import com.practise.eatit.interfaces.ItemClickListener;
 import com.practise.eatit.model.Category;
 import com.practise.eatit.model.Food;
+import com.practise.eatit.utils.Common;
 import com.pranavpandey.android.dynamic.toasts.DynamicToast;
 import com.squareup.picasso.Picasso;
 
@@ -67,7 +68,12 @@ public class FoodList extends AppCompatActivity {
             categoryId = getIntent().getStringExtra("categoryId");
         }
         if ( !categoryId.isEmpty() && categoryId != null){
-            loadListFood(categoryId);
+            if (Common.isConnectedToInternet(getApplicationContext())){
+                loadListFood(categoryId);
+            } else {
+                DynamicToast.makeError(getApplicationContext(), "Please turn on your internet", Toast.LENGTH_SHORT).show();
+                return;
+            }
         }
         materialSearchBar = findViewById(R.id.searchBar);
         materialSearchBar.setHint("Enter your food");
@@ -212,12 +218,16 @@ public class FoodList extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        adapter.startListening();
+        if (Common.isConnectedToInternet(getApplicationContext())){
+            adapter.startListening();
+        }
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        adapter.stopListening();
+        if (Common.isConnectedToInternet(getApplicationContext())){
+            adapter.stopListening();
+        }
     }
 }
