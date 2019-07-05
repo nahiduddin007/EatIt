@@ -32,6 +32,7 @@ import com.practise.eatit.ViewHolder.MenuViewHolder;
 import com.practise.eatit.interfaces.ItemClickListener;
 import com.practise.eatit.model.Category;
 import com.practise.eatit.model.User;
+import com.practise.eatit.services.ListenOrder;
 import com.practise.eatit.utils.Common;
 import com.practise.eatit.view.MainActivity;
 import com.pranavpandey.android.dynamic.toasts.DynamicToast;
@@ -107,6 +108,8 @@ public class HomeActivity extends AppCompatActivity
             return;
         }
         loadUserData();
+        Intent service = new Intent(getApplicationContext(), ListenOrder.class);
+        startService(service);
     }
 
 
